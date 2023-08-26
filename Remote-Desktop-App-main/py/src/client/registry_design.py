@@ -58,9 +58,9 @@ class RegistryDesign(QMainWindow):
         self.txt_kq.setGeometry(10, 110,360, 100)
         self.txt_kq.setEnabled(False)
 
-        self.btn_inject = QPushButton("Gửi", self.edit_box)
-        self.btn_inject.setGeometry(15, 215, 100, 25)
-        self.btn_inject.clicked.connect(self.on_btn_inject_click)
+        self.btn_inject_edit = QPushButton("Gửi", self.edit_box)
+        self.btn_inject_edit.setGeometry(15, 215, 100, 25)
+        self.btn_inject_edit.clicked.connect(self.on_btn_inject_click)
 
         self.btn_clear = QPushButton("Xóa", self.edit_box)
         self.btn_clear.setGeometry( 130, 215, 100, 25)
@@ -90,3 +90,4 @@ if __name__ == "__main__":
     registry_app = RegistryDesign()
     registry_app.show()
     sys.exit(app.exec())
+    
