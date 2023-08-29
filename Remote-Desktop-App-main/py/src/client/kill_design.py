@@ -7,18 +7,15 @@ class KillDesign(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Kill")
-        self.setGeometry(
-            gv.WINX + gv.WINW + gv.GL, gv.WINY + gv.WINH + 4 * gv.GL,
-            gv.WINW * 2 // 3, 2 * gv.GL + gv.SS
-        )
+        self.setGeometry(510, 420, 266, 45)
 
         self.buttonKill = QPushButton("Kill", self)
-        self.buttonKill.setGeometry(gv.WINW * 2 // 3 - gv.GL - gv.S, gv.GL, gv.S, gv.SS)
+        self.buttonKill.setGeometry(181, 10, 75, 25)
         self.buttonKill.clicked.connect(self.onButtonKillClick)
 
         self.txtId = QLineEdit(self)
         self.txtId.setPlaceholderText("Nhập ID")
-        self.txtId.setGeometry(gv.GL, gv.GL, gv.WINW * 2 // 3 - gv.G - 2 * gv.GL - gv.S, gv.SS)
+        self.txtId.setGeometry(10, 10, 166, 25)
 
     def onButtonKillClick(self):
         pass

@@ -9,40 +9,28 @@ class ListAppDesign(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("List Application")
-        self.setGeometry(gv.WINX, gv.WINY + gv.WINH + 4 * gv.GL, gv.WINW, gv.WINH)
+        self.setGeometry(100, 420, 400, 280)
 
         self.buttonShow = QPushButton("Show", self)
-        self.buttonShow.setGeometry(gv.GL, gv.GL, (gv.WINW - 2 * gv.GL - 3 * gv.G) // 4, 2 * gv.SS)
+        self.buttonShow.setGeometry(10, 10, 91, 50)
         self.buttonShow.clicked.connect(self.onButtonShowClick)
 
         self.buttonKill = QPushButton("Kill", self)
-        self.buttonKill.setGeometry(
-            gv.GL + gv.G + self.buttonShow.size().width(), gv.GL,
-            (gv.WINW - 2 * gv.GL - 3 * gv.G) // 4, 2 * gv.SS
-        )
+        self.buttonKill.setGeometry(106, 10, 91, 50)
         self.buttonKill.clicked.connect(self.onButtonKillClick)
 
         self.buttonStart = QPushButton("Start", self)
-        self.buttonStart.setGeometry(
-            gv.GL + 2 * gv.G + 2 * self.buttonShow.size().width(), gv.GL,
-            (gv.WINW - 2 * gv.GL - 3 * gv.G) // 4, 2 * gv.SS
-        )
+        self.buttonStart.setGeometry(202, 10, 91, 50)
         self.buttonStart.clicked.connect(self.onButtonStartClick)
 
         self.buttonClear = QPushButton("Clear", self)
-        self.buttonClear.setGeometry(
-            gv.GL + 3 * gv.G + 3 * self.buttonShow.size().width(), gv.GL,
-            (gv.WINW - 2 * gv.GL - 3 * gv.G) // 4, 2 * gv.SS
-        )
+        self.buttonClear.setGeometry(298, 10, 91, 50)
         self.buttonClear.clicked.connect(self.onButtonClearClick)
 
         self.model = QStandardItemModel()
         self.tableStyle = QTableView(self)
         self.tableStyle.setModel(self.model)
-        self.tableStyle.setGeometry(
-            gv.GL, gv.GL + gv.G + 2 * gv.SS,
-            gv.WINW - 2 * gv.GL, gv.WINH - (2 * gv.GL + gv.G + 2 * gv.SS)
-        )
+        self.tableStyle.setGeometry(10, 62, 380, 156)
         self.tableStyle.verticalHeader().setVisible(False)
         self.tableStyle.setShowGrid(False)
         self.tableStyle.setFrameStyle(0)

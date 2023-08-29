@@ -9,19 +9,19 @@ class PicDesign(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Take Screenshots")
-        self.setGeometry(gv.WINX, gv.WINY + gv.WINH + 4 * gv.GL, gv.WIN16 + gv.G + gv.S + gv.GL, gv.WIN9)
+        self.setGeometry(100, 420, 588, 280)
 
         self.pictureLabel = QLabel(self)
-        self.pictureLabel.setGeometry(gv.GL, gv.GL, gv.WIN16 - gv.GL, gv.WIN9 - 2 * gv.GL)
+        self.pictureLabel.setGeometry(10, 10, 398, 260)
         self.pictureLabel.setScaledContents(True)
         self.pictureLabel.setPixmap(QPixmap(os.getcwd() + "/pic.png"))
 
         self.buttonTake = QPushButton("Take\nScreenshot", self)
-        self.buttonTake.setGeometry(gv.WIN16 + gv.G, gv.GL, gv.S, gv.SXL)
+        self.buttonTake.setGeometry(503, 10, 75, 150)
         self.buttonTake.clicked.connect(self.onButtonTakeClick)
 
         self.buttonSave = QPushButton("Save", self)
-        self.buttonSave.setGeometry(gv.WIN16 + gv.G, gv.GL + gv.G + gv.SXL, gv.S, gv.WIN9 - gv.G - 2 * gv.GL - gv.SXL)
+        self.buttonSave.setGeometry(503, 165, 75, 105)
         self.buttonSave.clicked.connect(self.onButtonSaveClick)
 
     def takeScreenshot(self):
