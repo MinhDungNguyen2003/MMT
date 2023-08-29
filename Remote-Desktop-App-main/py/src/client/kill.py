@@ -9,8 +9,8 @@ class KillApp(KillDesign):
     def __init__(self):
         super().__init__()
 
-    def on_btn_kill_click(self):
-        utils.write(gv.client, f"kill('{self.txt_id.text()}')")
+    def onButtonKillClick(self):
+        utils.write(gv.client, f"kill('{self.txtId.text()}')")
 
         message = utils.read_str(gv.client)
 

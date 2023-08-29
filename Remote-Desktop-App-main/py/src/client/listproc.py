@@ -10,11 +10,11 @@ from PyQt6.QtWidgets import QApplication
 class ListProcApp(ListProcDesign):
     def __init__(self):
         super().__init__()
-        self.view_app = None
+        self.viewApp = None
 
         self.clear()
 
-    def on_btn_view_click(self):
+    def onButtonShowClick(self):
         utils.write(gv.client, "show_proc()")
 
         self.clear(True)
@@ -25,32 +25,32 @@ class ListProcApp(ListProcDesign):
         for proc in procs:
             self.model.appendRow([QStandardItem(data) for data in proc])
 
-    def on_btn_kill_click(self):
-        self.close_app()
-        self.view_app = KillApp()
-        self.view_app.show()
+    def onButtonKillClick(self):
+        self.closeApp()
+        self.viewApp = KillApp()
+        self.viewApp.show()
 
-    def on_btn_start_click(self):
-        self.close_app()
-        self.view_app = StartApp()
-        self.view_app.show()
+    def onButtonStartClick(self):
+        self.closeApp()
+        self.viewApp = StartApp()
+        self.viewApp.show()
 
-    def on_btn_delete_click(self):
+    def onButtonClearClick(self):
         self.clear()
 
     def clear(self, headers=False):
         self.model.clear()
 
         if headers:
-            self.model.setHorizontalHeaderLabels(["Name Proc", "ID Proc", "Count Thread", "CPU (s)"])
+            self.model.setHorizontalHeaderLabels(["Name Process", "ID Process", "Count Thread", "CPU (s)"])
 
-    def close_app(self):
-        if self.view_app:
-            self.view_app.close()
-            self.view_app = None
+    def closeApp(self):
+        if self.viewApp:
+            self.viewApp.close()
+            self.viewApp = None
 
     def closeEvent(self, event):
-        self.close_app()
+        self.closeApp()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

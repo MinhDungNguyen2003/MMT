@@ -9,39 +9,39 @@ class KeyloggerDesign(QMainWindow):
         self.setWindowTitle("Keystroke")
         self.setGeometry(0, 0, 347, 271)
 
-        self.txt_result = QTextEdit(self)
-        self.txt_result.setEnabled(False)
-        self.txt_result.setGeometry(12, 77, 318, 182)
+        self.txtOutput = QTextEdit(self)
+        self.txtOutput.setEnabled(False)
+        self.txtOutput.setGeometry(12, 77, 318, 182)
 
-        button_width = 75
-        button_height = 59
+        buttonWidth = 75
+        buttonHeight = 59
 
-        self.btn_hook = QPushButton("Hook", self)
-        self.btn_hook.setGeometry(12, 12, button_width, button_height)
-        self.btn_hook.clicked.connect(self.on_btn_hook_click)
+        self.buttonHook = QPushButton("Hook", self)
+        self.buttonHook.setGeometry(12, 12, buttonWidth, buttonHeight)
+        self.buttonHook.clicked.connect(self.onButtonHookClick)
 
-        self.btn_unhook = QPushButton("Unhook", self)
-        self.btn_unhook.setGeometry(93, 13, button_width, button_height)
-        self.btn_unhook.clicked.connect(self.on_btn_unhook_click)
+        self.buttonUnhook = QPushButton("Unhook", self)
+        self.buttonUnhook.setGeometry(93, 13, buttonWidth, buttonHeight)
+        self.buttonUnhook.clicked.connect(self.onButtonUnhookClick)
 
-        self.btn_print_key = QPushButton("In phím", self)
-        self.btn_print_key.setGeometry(174, 12, button_width, button_height)
-        self.btn_print_key.clicked.connect(self.on_btn_print_key_click)
+        self.buttonPrintKey = QPushButton("In phím", self)
+        self.buttonPrintKey.setGeometry(174, 12, buttonWidth, buttonHeight)
+        self.buttonPrintKey.clicked.connect(self.onButtonPrintKeyClick)
 
-        self.btn_clear = QPushButton("Xóa", self)
-        self.btn_clear.setGeometry(256, 13, button_width, button_height)
-        self.btn_clear.clicked.connect(self.on_btn_clear_click)
+        self.buttonClear = QPushButton("Xóa", self)
+        self.buttonClear.setGeometry(256, 13, buttonWidth, buttonHeight)
+        self.buttonClear.clicked.connect(self.onButtonClearClick)
 
-    def on_btn_hook_click(self):
+    def onButtonHookClick(self):
         pass
 
-    def on_btn_unhook_click(self):
+    def onButtonUnhookClick(self):
         pass
 
-    def on_btn_print_key_click(self):
+    def onButtonPrintKeyClick(self):
         pass
 
-    def on_btn_clear_click(self):
+    def onButtonClearClick(self):
         pass
 
     def closeEvent(self, event):

@@ -12,15 +12,15 @@ class StartDesign(QMainWindow):
             gv.WINW * 2 // 3, 2 * gv.GL + gv.SS
         )
 
-        self.btn_start = QPushButton("Start", self)
-        self.btn_start.setGeometry(gv.WINW * 2 // 3 - gv.GL - gv.S, gv.GL, gv.S, gv.SS)
-        self.btn_start.clicked.connect(self.on_btn_start_click)
+        self.buttonStart = QPushButton("Start", self)
+        self.buttonStart.setGeometry(gv.WINW * 2 // 3 - gv.GL - gv.S, gv.GL, gv.S, gv.SS)
+        self.buttonStart.clicked.connect(self.onButtonStartClick)
 
-        self.txt_id = QLineEdit(self)
-        self.txt_id.setPlaceholderText("Enter Name")
-        self.txt_id.setGeometry(gv.GL, gv.GL, gv.WINW * 2 // 3 - gv.G - 2 * gv.GL - gv.S, gv.SS)
+        self.idInput = QLineEdit(self)
+        self.idInput.setPlaceholderText("Enter Name")
+        self.idInput.setGeometry(gv.GL, gv.GL, gv.WINW * 2 // 3 - gv.G - 2 * gv.GL - gv.S, gv.SS)
 
-    def on_btn_start_click(self):
+    def onButtonStartClick(self):
         pass
 
     def closeEvent(self, event):

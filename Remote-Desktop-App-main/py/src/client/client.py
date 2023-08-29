@@ -14,46 +14,46 @@ from PyQt6.QtWidgets import QApplication
 class ClientApp(ClientDesign):
     def __init__(self):
         super().__init__()
-        self.view_app = None
+        self.viewApp = None
 
-    def on_btn_connect_click(self):
-        self.btn_connect.setEnabled(False)
+    def onButtonConnectClick(self):
+        self.buttonConnect.setEnabled(False)
 
         gv.client = QTcpSocket()
-        gv.client.connectToHost(QHostAddress(self.txt_ip.text()), 5656)
+        gv.client.connectToHost(QHostAddress(self.ipInput.text()), 5656)
 
         if not gv.client.waitForConnected():
-            self.btn_connect.setEnabled(True)
+            self.buttonConnect.setEnabled(True)
 
             QMessageBox.warning(self, "Error", "Lỗi kết nối đến server")
             gv.client = None
         else:
-            self.btn_connect.setEnabled(False)
-            self.txt_ip.setEnabled(False)
-            self.btn_connect.setText("Connected")
+            self.buttonConnect.setEnabled(False)
+            self.ipInput.setEnabled(False)
+            self.buttonConnect.setText("Connected")
 
             QMessageBox.information(self, "Success", "Kết nối đến server thành công")
 
-    def on_btn_quit_click(self):
+    def onButtonQuitClick(self):
         self.closeEvent(None)
         sys.exit()
 
-    def on_btn_shutdown_click(self):
+    def onButtonShutdownClick(self):
         self.open(ShutdownApp, True)
 
-    def on_btn_app_click(self):
+    def onButtonAppClick(self):
         self.open(ListAppApp)
 
-    def on_btn_reg_click(self):
+    def onButtonRegistryClick(self):
         self.open(RegistryApp)
 
-    def on_btn_pic_click(self):
+    def onButtonCaptureClick(self):
         self.open(PicApp)
 
-    def on_btn_key_click(self):
+    def onButtonKeystrokeClick(self):
         self.open(KeyloggerApp)
 
-    def on_btn_proc_click(self):
+    def onButtonProcessClick(self):
         self.open(ListProcApp)
 
     def open(self, App, pass_self=False):
@@ -61,19 +61,19 @@ class ClientApp(ClientDesign):
             QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
             return
 
-        self.close_app()
+        self.closeApp()
 
         if App:
-            self.view_app = App(self) if pass_self else App()
-            self.view_app.show()
+            self.viewApp = App(self) if pass_self else App()
+            self.viewApp.show()
 
-    def close_app(self):
-        if self.view_app:
-            self.view_app.close()
-            self.view_app = None
+    def closeApp(self):
+        if self.viewApp:
+            self.viewApp.close()
+            self.viewApp = None
 
     def closeEvent(self, event):
-        self.close_app()
+        self.closeApp()
 
         if gv.client:
             utils.write(gv.client, "quit()")

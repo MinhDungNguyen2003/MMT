@@ -10,22 +10,22 @@ class ShutdownDesign(QMainWindow):
         self.setWindowTitle("Shutdown")
         self.setGeometry(100, 420, 280 , 70)
 
-        self.btn_view = QPushButton("Shutdown", self)
-        self.btn_view.setGeometry(10, 10, 120, 50)
-        self.btn_view.clicked.connect(self.on_btn_shutdown_click)
+        self.buttonShow = QPushButton("Shutdown", self)
+        self.buttonShow.setGeometry(10, 10, 120, 50)
+        self.buttonShow.clicked.connect(self.onButtonShutdownClick)
 
-        self.btn_kill = QPushButton("Logout", self)
-        self.btn_kill.setGeometry(135, 10, 120, 50)
-        self.btn_kill.clicked.connect(self.on_btn_logout_click)
+        self.buttonLogout = QPushButton("Logout", self)
+        self.buttonLogout.setGeometry(135, 10, 120, 50)
+        self.buttonLogout.clicked.connect(self.onButtonLogoutClick)
 
         # self.btn_start = QPushButton("Restart", self)
         # self.btn_start.setGeometry( 20 + 2 * self.btn_view.size().width(), 10, 365 // 3, 50)
         # self.btn_start.clicked.connect(self.on_btn_restart_click)
 
-    def on_btn_shutdown_click(self):
+    def onButtonShutdownClick(self):
         pass
 
-    def on_btn_logout_click(self):
+    def onButtonLogoutClick(self):
         pass
 
     # def on_btn_restart_click(self):

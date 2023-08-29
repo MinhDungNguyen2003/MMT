@@ -9,8 +9,8 @@ class StartApp(StartDesign):
     def __init__(self):
         super().__init__()
 
-    def on_btn_start_click(self):
-        utils.write(gv.client, f"start('{self.txt_id.text()}')")
+    def onButtonStartClick(self):
+        utils.write(gv.client, f"start('{self.idInput.text()}')")
 
         message = utils.read_str(gv.client)
 

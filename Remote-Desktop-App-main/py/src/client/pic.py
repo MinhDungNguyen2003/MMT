@@ -11,9 +11,9 @@ class PicApp(PicDesign):
         super().__init__()
         self.path = os.path.join(os.path.dirname(__file__), "cache\\screenshot.bmp")
 
-        self.take_screenshot()
+        self.takeScreenshot()
 
-    def take_screenshot(self):
+    def takeScreenshot(self):
         utils.write(gv.client, "take_screenshot()")
         data = utils.read_all(gv.client, utils.read_int(gv.client), True)
 
@@ -22,22 +22,22 @@ class PicApp(PicDesign):
 
         pixmap = QPixmap()
         pixmap.loadFromData(data)
-        self.picture_label.setPixmap(pixmap)
+        self.pictureLabel.setPixmap(pixmap)
 
-    def save_screenshot(self):
+    def saveScreenshot(self):
         file_name, _ = QFileDialog.getSaveFileName(
             self, "Save Screenshot", self.path,
             "PNG Images (*.png);;JPG Images (*.jpg);;BMP Images (*.bmp);;All Files (*.*)"
         )
 
         if file_name:
-            self.picture_label.pixmap().save(file_name)
+            self.pictureLabel.pixmap().save(file_name)
 
-    def on_btn_take_click(self):
-        self.take_screenshot()
+    def onButtonTakeClick(self):
+        self.takeScreenshot()
 
-    def on_btn_save_click(self):
-        self.save_screenshot()
+    def onButtonSaveClick(self):
+        self.saveScreenshot()
 
     def closeEvent(self, event):
         pass

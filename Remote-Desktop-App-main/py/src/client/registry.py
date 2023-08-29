@@ -9,47 +9,47 @@ class RegistryApp(RegistryDesign):
     def __init__(self):
         super().__init__()
 
-    def on_btn_inject_registry_click(self):
-        content = self.txt_reg.toPlainText()
-        self.execute_and_handle_result(f"registry_inject('''{content}''')")
+    def onButtonInjectRegistryClick(self):
+        content = self.registryInput.toPlainText()
+        self.executeAndHandleResult(f"registry_inject('''{content}''')")
 
-    def on_txt_bro_change(self):
-        if "." in self.txt_bro.text():
+    def onBrowseInputChange(self):
+        if "." in self.browseInput.text():
             try:
-                with open(self.txt_bro.text(), "r") as f:
-                    self.txt_reg.setText(f.read())
+                with open(self.browseInput.text(), "r") as f:
+                    self.registryInput.setText(f.read())
             except:
                 pass
 
-    def on_btn_bro_click(self):
+    def onButtonBrowseClick(self):
         file_name, _ = QFileDialog.getOpenFileName(
             self, "Open Registry File", "", "Registry Files (*.reg);;All Files (*.*)"
         )
         if file_name:
-            self.txt_bro.setText(file_name)
+            self.browseInput.setText(file_name)
             try:
                 with open(file_name, "r") as f:
-                    self.txt_reg.setText(f.read())
+                    self.registryInput.setText(f.read())
             except:
                 QMessageBox.warning(self, "Error", "Failed to open file\nPlease choose a readable file")
 
-    def on_btn_inject_click(self):
+    def onButtonInjectClick(self):
         callee = {
-            "Get Value": f"registry_get_value('{self.txt_link.text()}', '{self.txt_name_value.text()}')",
+            "Get Value": f"registry_get_value('{self.linkInput.text()}', '{self.nameValueInput.text()}')",
             "Set Value": f"""registry_set_value(
-                '{self.txt_link.text()}',
-                '{self.txt_name_value.text()}',
-                '{self.txt_value.text()}',
-                '{self.op_type_value.currentText()}'
+                '{self.linkInput.text()}',
+                '{self.nameValueInput.text()}',
+                '{self.valueInput.text()}',
+                '{self.optionTypeValue.currentText()}'
             )""",
-            "Delete Value": f"registry_delete_value('{self.txt_link.text()}', '{self.txt_name_value.text()}')",
-            "Create Key": f"registry_create_key('{self.txt_link.text()}')",
-            "Delete Key": f"registry_delete_key('{self.txt_link.text()}')"
+            "Delete Value": f"registry_delete_value('{self.linkInput.text()}', '{self.nameValueInput.text()}')",
+            "Create Key": f"registry_create_key('{self.linkInput.text()}')",
+            "Delete Key": f"registry_delete_key('{self.linkInput.text()}')"
         }
-        command = callee[self.op_app.currentText()].replace("\\", "\\\\")
-        self.execute_and_handle_result(command)
+        command = callee[self.optionApp.currentText()].replace("\\", "\\\\")
+        self.executeAndHandleResult(command)
 
-    def on_op_app_change(self, index):
+    def onOptionAppChange(self, index):
         visibility = {
             "Get Value": [True, False, False],
             "Set Value": [True, True, True],
@@ -57,21 +57,23 @@ class RegistryApp(RegistryDesign):
             "Create Key": [False, False, False],
             "Delete Key": [False, False, False]
         }
-        selected = self.op_app.currentText()
-        self.txt_name_value.setVisible(visibility[selected][0])
-        self.txt_value.setVisible(visibility[selected][1])
-        self.op_type_value.setVisible(visibility[selected][2])
+        selected = self.optionApp.currentText()
+        self.nameValueInput.setVisible(visibility[selected][0])
+        self.valueInput.setVisible(visibility[selected][1])
+        self.optionTypeValue.setVisible(visibility[selected][2])
 
-    def on_btn_clear_click(self):
-        self.txt_kq.setText("")
+    def onButtonClearClick(self):
+        self.Output.setText("")
 
-    def execute_and_handle_result(self, command):
+    def executeAndHandleResult(self, command):
         utils.write(gv.client, command)
         message = utils.read_str(gv.client)
         if "Please" in message:
             QMessageBox.warning(self, "Error", message)
+            self.Output.setText(...,"Lỗi\n")
         else:
             QMessageBox.information(self, "Success", message)
+            self.Output.setText(...,message+"\n")
 
     def closeEvent(self, event):
         pass

@@ -11,55 +11,55 @@ class ListAppDesign(QMainWindow):
         self.setWindowTitle("List Application")
         self.setGeometry(gv.WINX, gv.WINY + gv.WINH + 4 * gv.GL, gv.WINW, gv.WINH)
 
-        self.btn_view = QPushButton("Show", self)
-        self.btn_view.setGeometry(gv.GL, gv.GL, (gv.WINW - 2 * gv.GL - 3 * gv.G) // 4, 2 * gv.SS)
-        self.btn_view.clicked.connect(self.on_btn_view_click)
+        self.buttonShow = QPushButton("Show", self)
+        self.buttonShow.setGeometry(gv.GL, gv.GL, (gv.WINW - 2 * gv.GL - 3 * gv.G) // 4, 2 * gv.SS)
+        self.buttonShow.clicked.connect(self.onButtonShowClick)
 
-        self.btn_kill = QPushButton("Kill", self)
-        self.btn_kill.setGeometry(
-            gv.GL + gv.G + self.btn_view.size().width(), gv.GL,
+        self.buttonKill = QPushButton("Kill", self)
+        self.buttonKill.setGeometry(
+            gv.GL + gv.G + self.buttonShow.size().width(), gv.GL,
             (gv.WINW - 2 * gv.GL - 3 * gv.G) // 4, 2 * gv.SS
         )
-        self.btn_kill.clicked.connect(self.on_btn_kill_click)
+        self.buttonKill.clicked.connect(self.onButtonKillClick)
 
-        self.btn_start = QPushButton("Start", self)
-        self.btn_start.setGeometry(
-            gv.GL + 2 * gv.G + 2 * self.btn_view.size().width(), gv.GL,
+        self.buttonStart = QPushButton("Start", self)
+        self.buttonStart.setGeometry(
+            gv.GL + 2 * gv.G + 2 * self.buttonShow.size().width(), gv.GL,
             (gv.WINW - 2 * gv.GL - 3 * gv.G) // 4, 2 * gv.SS
         )
-        self.btn_start.clicked.connect(self.on_btn_start_click)
+        self.buttonStart.clicked.connect(self.onButtonStartClick)
 
-        self.btn_delete = QPushButton("Clear", self)
-        self.btn_delete.setGeometry(
-            gv.GL + 3 * gv.G + 3 * self.btn_view.size().width(), gv.GL,
+        self.buttonClear = QPushButton("Clear", self)
+        self.buttonClear.setGeometry(
+            gv.GL + 3 * gv.G + 3 * self.buttonShow.size().width(), gv.GL,
             (gv.WINW - 2 * gv.GL - 3 * gv.G) // 4, 2 * gv.SS
         )
-        self.btn_delete.clicked.connect(self.on_btn_delete_click)
+        self.buttonClear.clicked.connect(self.onButtonClearClick)
 
         self.model = QStandardItemModel()
-        self.table_view = QTableView(self)
-        self.table_view.setModel(self.model)
-        self.table_view.setGeometry(
+        self.tableStyle = QTableView(self)
+        self.tableStyle.setModel(self.model)
+        self.tableStyle.setGeometry(
             gv.GL, gv.GL + gv.G + 2 * gv.SS,
             gv.WINW - 2 * gv.GL, gv.WINH - (2 * gv.GL + gv.G + 2 * gv.SS)
         )
-        self.table_view.verticalHeader().setVisible(False)
-        self.table_view.setShowGrid(False)
-        self.table_view.setFrameStyle(0)
-        self.table_view.setAlternatingRowColors(True)
-        self.table_view.horizontalHeader().setDefaultAlignment(Qt.AlignmentFlag.AlignLeft)
-        self.table_view.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.tableStyle.verticalHeader().setVisible(False)
+        self.tableStyle.setShowGrid(False)
+        self.tableStyle.setFrameStyle(0)
+        self.tableStyle.setAlternatingRowColors(True)
+        self.tableStyle.horizontalHeader().setDefaultAlignment(Qt.AlignmentFlag.AlignLeft)
+        self.tableStyle.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
-    def on_btn_view_click(self):
+    def onButtonShowClick(self):
         pass
 
-    def on_btn_kill_click(self):
+    def onButtonKillClick(self):
         pass
 
-    def on_btn_start_click(self):
+    def onButtonStartClick(self):
         pass
 
-    def on_btn_delete_click(self):
+    def onButtonClearClick(self):
         pass
 
     def closeEvent(self, event):

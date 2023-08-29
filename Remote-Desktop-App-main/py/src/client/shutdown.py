@@ -10,30 +10,40 @@ class ShutdownApp(ShutdownDesign):
         super().__init__()
         self.parent = parent
 
-    def on_btn_shutdown_click(self):
-        self.shutdown("shutdown()")
+    def onButtonShutdownClick(self):
+        self.shutdown()
 
-    def on_btn_logout_click(self):
-        self.shutdown("logout()")
+    def onButtonLogoutClick(self):
+        self.logout()
 
     # def on_btn_restart_click(self):
     #     self.shutdown("restart()")
 
-    def shutdown(self, cmd):
-
-        utils.write(gv.client, cmd)
+    def shutdown(self):
+        utils.write(gv.client, "shutdown()")
         message = utils.read_str(gv.client)
-
         if "Failed" in message:
             QMessageBox.warning(self, "Error", message)
         else:
             QMessageBox.information(self, "Success", message)
-
             gv.client = None
-            self.parent.close_app()
-            self.parent.btn_connect.setEnabled(True)
-            self.parent.txt_ip.setEnabled(True)
-            self.parent.btn_connect.setText("Connect")
+            self.parent.closeApp()
+            self.parent.buttonConnect.setEnabled(True)
+            self.parent.ipInput.setEnabled(True)
+            self.parent.buttonConnect.setText("Connect")
+
+    def logout(self):
+        utils.write(gv.client, "logout()")
+        message = utils.read_str(gv.client)
+        if "Failed" in message:
+            QMessageBox.warning(self, "Error", message)
+        else:
+            QMessageBox.information(self, "Success", message)
+            gv.client = None
+            self.parent.closeApp()
+            self.parent.buttonConnect.setEnabled(True)
+            self.parent.ipInput.setEnabled(True)
+            self.parent.buttonConnect.setText("Connect")
 
     def closeEvent(self, event):
         pass

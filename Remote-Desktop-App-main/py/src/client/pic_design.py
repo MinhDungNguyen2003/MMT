@@ -11,26 +11,26 @@ class PicDesign(QMainWindow):
         self.setWindowTitle("Take Screenshots")
         self.setGeometry(gv.WINX, gv.WINY + gv.WINH + 4 * gv.GL, gv.WIN16 + gv.G + gv.S + gv.GL, gv.WIN9)
 
-        self.picture_label = QLabel(self)
-        self.picture_label.setGeometry(gv.GL, gv.GL, gv.WIN16 - gv.GL, gv.WIN9 - 2 * gv.GL)
-        self.picture_label.setScaledContents(True)
-        self.picture_label.setPixmap(QPixmap(os.getcwd() + "/pic.png"))
+        self.pictureLabel = QLabel(self)
+        self.pictureLabel.setGeometry(gv.GL, gv.GL, gv.WIN16 - gv.GL, gv.WIN9 - 2 * gv.GL)
+        self.pictureLabel.setScaledContents(True)
+        self.pictureLabel.setPixmap(QPixmap(os.getcwd() + "/pic.png"))
 
-        self.btn_take = QPushButton("Take\nScreenshot", self)
-        self.btn_take.setGeometry(gv.WIN16 + gv.G, gv.GL, gv.S, gv.SXL)
-        self.btn_take.clicked.connect(self.on_btn_take_click)
+        self.buttonTake = QPushButton("Take\nScreenshot", self)
+        self.buttonTake.setGeometry(gv.WIN16 + gv.G, gv.GL, gv.S, gv.SXL)
+        self.buttonTake.clicked.connect(self.onButtonTakeClick)
 
-        self.btn_save = QPushButton("Save", self)
-        self.btn_save.setGeometry(gv.WIN16 + gv.G, gv.GL + gv.G + gv.SXL, gv.S, gv.WIN9 - gv.G - 2 * gv.GL - gv.SXL)
-        self.btn_save.clicked.connect(self.on_btn_save_click)
+        self.buttonSave = QPushButton("Save", self)
+        self.buttonSave.setGeometry(gv.WIN16 + gv.G, gv.GL + gv.G + gv.SXL, gv.S, gv.WIN9 - gv.G - 2 * gv.GL - gv.SXL)
+        self.buttonSave.clicked.connect(self.onButtonSaveClick)
 
-    def take_screenshot(self):
+    def takeScreenshot(self):
         pass
 
-    def on_btn_take_click(self):
+    def onButtonTakeClick(self):
         pass
 
-    def on_btn_save_click(self):
+    def onButtonSaveClick(self):
         pass
 
     def closeEvent(self, event):

@@ -107,9 +107,10 @@ class ServerApp(ServerDesign):
         )
 
         if result:
-            self.send_response(f"Failed to kill {process_id}\rPlease recheck if {process_id} exists")
+            # self.send_response(f"Failed to kill {process_id}\rPlease recheck if {process_id} exists")
+            self.send_response(f"Không tìm thấy chương trình {process_id}")
         else:
-            self.send_response(f"Killed {process_id}!")
+            self.send_response(f"Đã diệt chương trình {process_id}")
 
     def start(self, exe_name):
         result = subprocess.call(
@@ -118,9 +119,9 @@ class ServerApp(ServerDesign):
         )
 
         if result:
-            self.send_response(f"Failed to start {exe_name}\rPlease recheck if {exe_name} exists")
+            self.send_response(f"Không tìm thấy chương trình {exe_name}")
         else:
-            self.send_response(f"Started {exe_name}!")
+            self.send_response(f"Chương trình {exe_name} đã được bật")
 
     def take_screenshot(self):
         path = os.path.join(os.path.dirname(__file__), "cache\\screenshot.bmp")
