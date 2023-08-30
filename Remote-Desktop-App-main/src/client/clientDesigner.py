@@ -90,4 +90,6 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     clientApp = ClientDesign()
     clientApp.show()
+    # clientApp.applyButtonStyle(clientApp.buttonConnect)
+    # clientApp.applyButtonStyle(clientApp.buttonApp)
     sys.exit(app.exec())

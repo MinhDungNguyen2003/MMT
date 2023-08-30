@@ -16,7 +16,7 @@ class ProcessApp(ProcessDesigner):
         self.clear()
 
     def onButtonShowClick(self):
-        utils.write(gv.client, "showProcess()")
+        utils.send(gv.client, "showProcess()")
 
         self.clear(True)
 

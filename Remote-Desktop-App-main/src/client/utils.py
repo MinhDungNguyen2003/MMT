@@ -1,7 +1,7 @@
 import ast
 
 
-def write(socket, data, raw=False):
+def send(socket, data, raw=False):
     if data:
         socket.write(data if raw else data.encode())
         socket.flush()

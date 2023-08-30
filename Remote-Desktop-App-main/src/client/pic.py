@@ -16,7 +16,7 @@ class PicApp(PicDesigner):
         self.takeScreenshot()
 
     def takeScreenshot(self):
-        utils.write(gv.client, "takeScreenshot()")
+        utils.send(gv.client, "takeScreenshot()")
         data = utils.readAll(gv.client, utils.readInt(gv.client), True)
 
         with open(self.path, "wb") as f:

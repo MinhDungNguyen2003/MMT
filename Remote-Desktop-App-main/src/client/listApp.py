@@ -16,7 +16,7 @@ class ListAppApp(ListAppDesigner):
         self.clear()
 
     def onButtonShowClick(self):
-        utils.write(gv.client, "showApp()")
+        utils.send(gv.client, "showApp()")
 
         self.clear(True)
 

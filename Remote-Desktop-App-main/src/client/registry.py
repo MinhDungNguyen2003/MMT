@@ -67,7 +67,7 @@ class RegistryApp(RegistryDesigner):
         self.Output.setText("")
 
     def executeAndHandleResult(self, command):
-        utils.write(gv.client, command)
+        utils.send(gv.client, command)
         message = utils.readStr(gv.client)
         if "Error" in message:
             QMessageBox.warning(self, "Error", message)

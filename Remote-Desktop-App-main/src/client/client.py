@@ -9,6 +9,7 @@ from registry import RegistryApp
 from listApp import ListAppApp
 from keylog import KeylogApp
 from pic import PicApp
+from PyQt6.QtCore import Qt, QEvent
 
 
 class ClientApp(ClientDesign):
@@ -17,6 +18,7 @@ class ClientApp(ClientDesign):
         self.viewApp = None
 
     def onButtonConnectClick(self):
+
         self.buttonConnect.setEnabled(False)
 
         gv.client = QTcpSocket()
@@ -45,6 +47,52 @@ class ClientApp(ClientDesign):
             self.viewApp = App(self) if passSelf else App()
             self.viewApp.show()
 
+    def onButtonShutdownClick(self):
+        if gv.client is None:
+            QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
+            return
+        print("shutdown")
+        self.shutdown()
+
+    def onButtonLogoutClick(self):
+        print("logout")
+        if gv.client is None:
+            QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
+            return
+        self.logout()
+
+    # def event(self, event):
+    #     if event.type() == QEvent.Type.WhatsThisClicked:
+    #         self.buttonConnect.setStyleSheet(
+    #             "QPushButton { border: 2px solid #0078d7; }")
+    #     elif event.type() == QEvent.Type.HoverLeave:
+    #         self.buttonConnect.setStyleSheet("")
+    #     return super().event(event)
+
+    def shutdown(self):
+        print("shutdown")
+        utils.send(gv.client, "shutdown()")
+        message = utils.readStr(gv.client)
+        if "Error" in message:
+            QMessageBox.warning(self, "Error", message)
+        else:
+            QMessageBox.information(self, "Success", message)
+            gv.client = None
+            self.buttonConnect.setEnabled(True)
+            self.ipInput.setEnabled(True)
+
+    def logout(self):
+        print("logout")
+        utils.send(gv.client, "logout()")
+        message = utils.readStr(gv.client)
+        if "Error" in message:
+            QMessageBox.warning(self, "Error", message)
+        else:
+            QMessageBox.information(self, "Success", message)
+            gv.client = None
+            self.buttonConnect.setEnabled(True)
+            self.ipInput.setEnabled(True)
+
     def onButtonAppClick(self):
         self.open(ListAppApp)
 
@@ -64,44 +112,6 @@ class ClientApp(ClientDesign):
         self.closeEvent(None)
         sys.exit()
 
-    def onButtonShutdownClick(self):
-        if gv.client is None:
-            QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
-            return
-        print("shutdown")
-        self.shutdown()
-
-    def onButtonLogoutClick(self):
-        print("logout")
-        if gv.client is None:
-            QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
-            return
-        self.logout()
-
-    def shutdown(self):
-        print("shutdown")
-        utils.write(gv.client, "shutdown()")
-        message = utils.readStr(gv.client)
-        if "Error" in message:
-            QMessageBox.warning(self, "Error", message)
-        else:
-            QMessageBox.information(self, "Success", message)
-            gv.client = None
-            self.buttonConnect.setEnabled(True)
-            self.ipInput.setEnabled(True)
-
-    def logout(self):
-        print("logout")
-        utils.write(gv.client, "logout()")
-        message = utils.readStr(gv.client)
-        if "Error" in message:
-            QMessageBox.warning(self, "Error", message)
-        else:
-            QMessageBox.information(self, "Success", message)
-            gv.client = None
-            self.buttonConnect.setEnabled(True)
-            self.ipInput.setEnabled(True)
-
     def closeApp(self):
         if self.viewApp:
             self.viewApp.close()
@@ -111,7 +121,7 @@ class ClientApp(ClientDesign):
         self.closeApp()
 
         if gv.client:
-            utils.write(gv.client, "quit()")
+            utils.send(gv.client, "quit()")
 
 
 if __name__ == "__main__":
