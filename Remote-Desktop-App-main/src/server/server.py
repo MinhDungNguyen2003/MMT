@@ -74,28 +74,41 @@ class ServerApp(ServerDesigner):
         self.sendResponse(str(f"{len(str(apps))}\n"))
         self.sendResponse(str(apps))
 
-    def kill(self, processId):
+    def kill(self, processId, isApp):
         result = subprocess.call(
             ["powershell", "taskkill /F /PID", processId],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
         )
 
         if result:
-            self.sendResponse(
-                f"Error: Không tìm thấy chương trình {processId}")
+            if eval(isApp):
+                self.sendResponse(
+                    f"Error: Không tìm thấy ứng dụng {processId}")
+            else:
+                self.sendResponse(
+                    f"Error: Không tìm thấy proccess {processId}")
         else:
-            self.sendResponse(f"Đã diệt chương trình {processId}")
+            if eval(isApp):
+                self.sendResponse(f"Đã tắt ứng dụng {processId}")
+            else:
+                self.sendResponse(f"Đã diệt proccess {processId}")
 
-    def start(self, exeName):
+    def start(self, exeName, isApp):
         result = subprocess.call(
             ["powershell", "Start-Process", exeName],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
         )
 
         if result:
-            self.sendResponse(f"Error: Không tìm thấy chương trình {exeName}")
+            if eval(isApp):
+                self.sendResponse(f"Error: Không tìm thấy ứng dụng {exeName}")
+            else:
+                self.sendResponse(f"Error: Không tìm thấy proccess {exeName}")
         else:
-            self.sendResponse(f"Chương trình {exeName} đã được bật")
+            if eval(isApp):
+                self.sendResponse(f"Đã mở ứng dụng {exeName}")
+            else:
+                self.sendResponse(f"Đã mở proccess {exeName}")
 
     def takeScreenshot(self):
         path = os.path.join(os.path.dirname(__file__), "cache\\screenshot.bmp")
