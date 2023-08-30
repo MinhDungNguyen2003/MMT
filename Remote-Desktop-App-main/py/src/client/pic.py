@@ -1,20 +1,23 @@
-from pic_design import PicDesign
-import os, utils
-import global_variables as gv
+from pic_designer import PicDesign
+import os
+import utils
+import glob_var as gv
 from PyQt6.QtWidgets import QFileDialog
 from PyQt6.QtGui import QPixmap
 import sys
 from PyQt6.QtWidgets import QApplication
 
+
 class PicApp(PicDesign):
     def __init__(self):
         super().__init__()
-        self.path = os.path.join(os.path.dirname(__file__), "cache\\screenshot.bmp")
+        self.path = os.path.join(os.path.dirname(
+            __file__), "cache\\screenshot.bmp")
 
         self.takeScreenshot()
 
     def takeScreenshot(self):
-        utils.write(gv.client, "take_screenshot()")
+        utils.write(gv.client, "takeScreenshot()")
         data = utils.read_all(gv.client, utils.read_int(gv.client), True)
 
         with open(self.path, "wb") as f:
@@ -41,6 +44,7 @@ class PicApp(PicDesign):
 
     def closeEvent(self, event):
         pass
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

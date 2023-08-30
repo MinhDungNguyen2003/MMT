@@ -1,5 +1,5 @@
-from start_design import StartDesign
-import global_variables as gv
+from start_designer import StartDesign
+import glob_var as gv
 import utils
 from PyQt6.QtWidgets import QMessageBox
 import sys
@@ -14,7 +14,7 @@ class StartApp(StartDesign):
 
         message = utils.read_str(gv.client)
 
-        if "Please" in message:
+        if "Error" in message:
             QMessageBox.warning(self, "Error", message)
         else:
             QMessageBox.information(self, "Success", message)

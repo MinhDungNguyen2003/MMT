@@ -1,6 +1,6 @@
 import sys
-import global_variables as gv
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit
+
 
 class KillDesign(QMainWindow):
     def __init__(self):
@@ -22,6 +22,7 @@ class KillDesign(QMainWindow):
 
     def closeEvent(self, event):
         pass
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -1,5 +1,5 @@
-from registry_design import RegistryDesign
-import global_variables as gv
+from registry_designer import RegistryDesign
+import glob_var as gv
 import utils
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 import sys
@@ -11,7 +11,7 @@ class RegistryApp(RegistryDesign):
 
     def onButtonInjectRegistryClick(self):
         content = self.registryInput.toPlainText()
-        self.executeAndHandleResult(f"registry_inject('''{content}''')")
+        self.executeAndHandleResult(f"registryInject('''{content}''')")
 
     def onBrowseInputChange(self):
         if "." in self.browseInput.text():
@@ -35,16 +35,16 @@ class RegistryApp(RegistryDesign):
 
     def onButtonInjectClick(self):
         callee = {
-            "Get Value": f"registry_get_value('{self.linkInput.text()}', '{self.nameValueInput.text()}')",
-            "Set Value": f"""registry_set_value(
+            "Get Value": f"registryGetValue('{self.linkInput.text()}', '{self.nameValueInput.text()}')",
+            "Set Value": f"""registrySetValue(
                 '{self.linkInput.text()}',
                 '{self.nameValueInput.text()}',
                 '{self.valueInput.text()}',
                 '{self.optionTypeValue.currentText()}'
             )""",
-            "Delete Value": f"registry_delete_value('{self.linkInput.text()}', '{self.nameValueInput.text()}')",
-            "Create Key": f"registry_create_key('{self.linkInput.text()}')",
-            "Delete Key": f"registry_delete_key('{self.linkInput.text()}')"
+            "Delete Value": f"registryDeleteValue('{self.linkInput.text()}', '{self.nameValueInput.text()}')",
+            "Create Key": f"registryCreateKey('{self.linkInput.text()}')",
+            "Delete Key": f"registryDeleteKey('{self.linkInput.text()}')"
         }
         command = callee[self.optionApp.currentText()].replace("\\", "\\\\")
         self.executeAndHandleResult(command)
@@ -68,12 +68,17 @@ class RegistryApp(RegistryDesign):
     def executeAndHandleResult(self, command):
         utils.write(gv.client, command)
         message = utils.read_str(gv.client)
-        if "Please" in message:
+        if "Error" in message:
             QMessageBox.warning(self, "Error", message)
-            self.Output.setText(...,"Lỗi\n")
+            curr_text = self.Output.toPlainText()
+            new_txt = curr_text + "Lỗi\n"
+            self.Output.setPlainText(new_txt)
         else:
             QMessageBox.information(self, "Success", message)
-            self.Output.setText(...,message+"\n")
+            current_text = self.Output.toPlainText()
+            new_text = current_text + message + "\n"
+            
+            self.Output.setPlainText(new_text)
 
     def closeEvent(self, event):
         pass

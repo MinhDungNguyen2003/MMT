@@ -1,5 +1,4 @@
 import sys
-import global_variables as gv
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
 
 class ServerDesign(QMainWindow):
@@ -7,13 +6,13 @@ class ServerDesign(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Server")
-        self.setGeometry(gv.WINX, gv.WINY, gv.WINW, gv.WINH)
+        self.setGeometry(100, 100, 400, 280)
 
-        self.btn_open_server = QPushButton("Start Server", self)
-        self.btn_open_server.setGeometry(gv.GL, gv.GL, gv.WINW - 2 * gv.GL, gv.WINH - 2 * gv.GL)
-        self.btn_open_server.clicked.connect(self.on_btn_open_server_click)
+        self.buttonOpenServer = QPushButton("Start Server", self)
+        self.buttonOpenServer.setGeometry(10, 10, 130, 135)
+        self.buttonOpenServer.clicked.connect(self.onButtonOpenServerClick)
 
-    def on_btn_open_server_click(self):
+    def onButtonOpenServerClick(self):
         pass
 
 if __name__ == "__main__":

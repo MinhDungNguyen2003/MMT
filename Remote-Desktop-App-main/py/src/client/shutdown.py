@@ -1,5 +1,5 @@
-from shutdown_design import ShutdownDesign
-import global_variables as gv
+from shutdown_designer import ShutdownDesign
+import glob_var as gv
 import utils
 from PyQt6.QtWidgets import QMessageBox
 import sys
@@ -22,7 +22,7 @@ class ShutdownApp(ShutdownDesign):
     def shutdown(self):
         utils.write(gv.client, "shutdown()")
         message = utils.read_str(gv.client)
-        if "Failed" in message:
+        if "Error" in message:
             QMessageBox.warning(self, "Error", message)
         else:
             QMessageBox.information(self, "Success", message)
@@ -35,7 +35,7 @@ class ShutdownApp(ShutdownDesign):
     def logout(self):
         utils.write(gv.client, "logout()")
         message = utils.read_str(gv.client)
-        if "Failed" in message:
+        if "Error" in message:
             QMessageBox.warning(self, "Error", message)
         else:
             QMessageBox.information(self, "Success", message)

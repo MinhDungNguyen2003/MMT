@@ -1,6 +1,6 @@
 import socket
 from server_design import ServerDesign
-import global_variables as gv
+import glob_var as gv
 import sys, os, re, subprocess, winreg
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtNetwork import QTcpServer, QHostAddress, QAbstractSocket
@@ -10,36 +10,36 @@ class ServerApp(ServerDesign):
     def __init__(self):
         super().__init__()
         self.keylogger = Keylogger()
-
-    def get_network_ip(self):
+    # get_network_ip
+    def getNetworkIP(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
         ip_address = s.getsockname()[0]
         s.close()
         return ip_address
-
-    def on_btn_open_server_click(self):
+    # on_btn_open_server_click
+    def onButtonOpenServerClick(self):
         if gv.server is None:
-            ip_address = self.get_network_ip()
+            ip_address = self.getNetworkIP()
             print(ip_address)
             gv.server = QTcpServer(self)
             gv.server.listen(QHostAddress(ip_address), 5656)
-            gv.server.newConnection.connect(self.on_new_connection)
-            self.btn_open_server.setEnabled(False)
-
-    def on_new_connection(self):
+            gv.server.newConnection.connect(self.onNewConnection)
+            self.buttonOpenServer.setEnabled(False)
+    # on_new_connection
+    def onNewConnection(self):
         gv.client = gv.server.nextPendingConnection()
         if gv.client.state() == QAbstractSocket.SocketState.ConnectedState:
-            self.handle_client()
-
-    def receive_signal(self, size=1024):
+            self.handleClient()
+    # receive_signal
+    def receiveSignal(self, size=1024):
         try:
             gv.client.waitForReadyRead()
             return gv.client.read(size).decode()
         except:
             self.quit()
 
-    def send_response(self, response, raw=False):
+    def sendResponse(self, response, raw=False):
         gv.client.write(response if raw else response.encode())
         gv.client.flush()
         gv.client.waitForBytesWritten()
@@ -47,27 +47,18 @@ class ServerApp(ServerDesign):
     def shutdown(self):
         try:
             os.system("shutdown /s /t 15")
-            self.send_response("Shutdown!")
+            self.sendResponse("Shutdown!")
         except:
-            self.send_response("Failed to shutdown\rPlease try again\n")
+            self.sendResponse("Error: Failed to shutdown")
 
     def logout(self):
         try:
             os.system("shutdown -l")
-            self.send_response("Logged out!")
+            self.sendResponse("Logged out!")
         except:
-            self.send_response("Failed to logout\rPlease try again\n")
+            self.sendResponse("Error: Failed to logout")
 
-    # def restart(self):
-    #     try:
-    #         os.system("shutdown /r /t 30")
-    #         self.send_response("Restarted!")
-    #     except:
-    #         self.send_response("Failed to restart\rPlease try again\n")
-
-    
-
-    def show_proc(self):
+    def showProcess(self):
         processes = subprocess.Popen([
             "powershell",
             "gps",
@@ -80,10 +71,10 @@ class ServerApp(ServerDesign):
             m = re.match("(.+?) +(\d+) +(\d+) *(\d*,?\d*)", process)
             apps.append([m.group(1), m.group(2), m.group(3), m.group(4) if m.group(4) else "0"])
 
-        self.send_response(str(f"{len(str(apps))}\n"))
-        self.send_response(str(apps))
+        self.sendResponse(str(f"{len(str(apps))}\n"))
+        self.sendResponse(str(apps))
 
-    def show_app(self):
+    def showApp(self):
         processes = subprocess.Popen([
             "powershell",
             "gps",
@@ -97,8 +88,8 @@ class ServerApp(ServerDesign):
             m = re.match("(.+?) +(\d+) +(\d+) *(\d*,?\d*)", process)
             apps.append([m.group(1), m.group(2), m.group(3), m.group(4) if m.group(4) else "0"])
 
-        self.send_response(str(f"{len(str(apps))}\n"))
-        self.send_response(str(apps))
+        self.sendResponse(str(f"{len(str(apps))}\n"))
+        self.sendResponse(str(apps))
 
     def kill(self, process_id):
         result = subprocess.call(
@@ -108,9 +99,9 @@ class ServerApp(ServerDesign):
 
         if result:
             # self.send_response(f"Failed to kill {process_id}\rPlease recheck if {process_id} exists")
-            self.send_response(f"Không tìm thấy chương trình {process_id}")
+            self.sendResponse(f"Error: Không tìm thấy chương trình {process_id}")
         else:
-            self.send_response(f"Đã diệt chương trình {process_id}")
+            self.sendResponse(f"Đã diệt chương trình {process_id}")
 
     def start(self, exe_name):
         result = subprocess.call(
@@ -119,11 +110,11 @@ class ServerApp(ServerDesign):
         )
 
         if result:
-            self.send_response(f"Không tìm thấy chương trình {exe_name}")
+            self.sendResponse(f"Error: Không tìm thấy chương trình {exe_name}")
         else:
-            self.send_response(f"Chương trình {exe_name} đã được bật")
+            self.sendResponse(f"Chương trình {exe_name} đã được bật")
 
-    def take_screenshot(self):
+    def takeScreenshot(self):
         path = os.path.join(os.path.dirname(__file__), "cache\\screenshot.bmp")
 
         QApplication.primaryScreen().grabWindow(0).save(path)
@@ -131,22 +122,22 @@ class ServerApp(ServerDesign):
         with open(path, "rb") as f:
             data = f.read()
 
-        self.send_response(str(f"{len(data)}\n"))
-        self.send_response(data, True)
+        self.sendResponse(str(f"{len(data)}\n"))
+        self.sendResponse(data, True)
 
-    def keylog_hook(self):
+    def keylogHook(self):
         self.keylogger.hook()
 
-    def keylog_unhook(self):
+    def keylogUnhook(self):
         self.keylogger.unhook()
 
-    def keylog_print(self):
-        self.send_response(self.keylogger.print().replace("\n", "\r") + "\n")
+    def keylogPrint(self):
+        self.sendResponse(self.keylogger.print().replace("\n", "\r") + "\n")
 
-    def keylog_clear(self):
+    def keylogClear(self):
         self.keylogger.clear()
 
-    def registry_inject(self, registry):
+    def registryInject(self, registry):
         path = os.path.join(os.path.dirname(__file__), "cache\\registry.reg")
 
         with open(path, "w") as f:
@@ -158,11 +149,11 @@ class ServerApp(ServerDesign):
         )
 
         if result.stderr:
-            self.send_response("Failed to edit registry\rPlease try again")
+            self.sendResponse("Error: Failed to edit registry")
         else:
-            self.send_response("Edited registry!")
+            self.sendResponse("Sửa thành công!")
 
-    def registry_get_value(self, link, value_name):
+    def registryGetValue(self, link, value_name):
         try:
             root_key, sub_key = link.split("\\", 1)
             root_key = getattr(winreg, root_key)
@@ -170,11 +161,11 @@ class ServerApp(ServerDesign):
             value, _ = winreg.QueryValueEx(key, value_name)
             winreg.CloseKey(key)
 
-            self.send_response(f"{value}\n")
+            self.sendResponse(f"{value}\n")
         except Exception as e:
-            self.send_response(f"Error: {e}\n")
+            self.sendResponse(f"Error: {e}\n")
 
-    def registry_set_value(self, link, value_name, value, op_type):
+    def registrySetValue(self, link, value_name, value, op_type):
         try:
             root_key, sub_key = link.split("\\", 1)
             root_key = getattr(winreg, root_key)
@@ -197,17 +188,17 @@ class ServerApp(ServerDesign):
                 value_type = winreg.REG_BINARY
                 value = bytes(map(int, value.split()))
             else:
-                self.send_response("Error: Invalid type\n")
+                self.sendResponse("Error: Invalid type\n")
                 return
 
             winreg.SetValueEx(key, value_name, 0, value_type, value)
             winreg.CloseKey(key)
 
-            self.send_response("Value set\n")
+            self.sendResponse("Set value thành công\n")
         except Exception as e:
-            self.send_response(f"Error: {e}\n")
+            self.sendResponse(f"Error: {e}\n")
 
-    def registry_delete_value(self, link, value_name):
+    def registryDeleteValue(self, link, value_name):
         try:
             root_key, sub_key = link.split("\\", 1)
             root_key = getattr(winreg, root_key)
@@ -215,34 +206,34 @@ class ServerApp(ServerDesign):
             winreg.DeleteValue(key, value_name)
             winreg.CloseKey(key)
 
-            self.send_response("Value deleted\n")
+            self.sendResponse("Xóa value thành công\n")
         except Exception as e:
-            self.send_response(f"Error: {e}\n")
+            self.sendResponse(f"Error: {e}\n")
 
-    def registry_create_key(self, link):
+    def registryCreateKey(self, link):
         try:
             root_key, sub_key = link.split("\\", 1)
             root_key = getattr(winreg, root_key)
             key = winreg.CreateKey(root_key, sub_key)
             winreg.CloseKey(key)
 
-            self.send_response("Key created\n")
+            self.sendResponse("Tạo key thành công\n")
         except Exception as e:
-            self.send_response(f"Error: {e}\n")
+            self.sendResponse(f"Error: {e}\n")
 
-    def registry_delete_key(self, link):
+    def registryDeleteKey(self, link):
         try:
             root_key, sub_key = link.split("\\", 1)
             root_key = getattr(winreg, root_key)
             winreg.DeleteKey(root_key, sub_key)
 
-            self.send_response("Key deleted\n")
+            self.sendResponse("Xóa key thành công\n")
         except Exception as e:
-            self.send_response(f"Error: {e}\n")
+            self.sendResponse(f"Error: {e}\n")
 
-    def handle_client(self):
+    def handleClient(self):
         while True:
-            function_call = self.receive_signal()
+            function_call = self.receiveSignal()
             function = function_call.split("(")[0]
 
             if hasattr(self, function):

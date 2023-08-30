@@ -1,15 +1,17 @@
-import sys, utils
-from client_design import ClientDesign
-from listproc import ListProcApp
-from listapp import ListAppApp
+import sys
+import utils
+from client_designer import ClientDesign
+from list_process import ListProcApp
+from list_app import ListAppApp
 from registry import RegistryApp
 from pic import PicApp
-from keylogger import KeyloggerApp
+from keylog import KeyloggerApp
 from shutdown import ShutdownApp
-import global_variables as gv
+import glob_var as gv
 from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtNetwork import QTcpSocket, QHostAddress
 from PyQt6.QtWidgets import QApplication
+
 
 class ClientApp(ClientDesign):
     def __init__(self):
@@ -32,7 +34,8 @@ class ClientApp(ClientDesign):
             self.ipInput.setEnabled(False)
             self.buttonConnect.setText("Connected")
 
-            QMessageBox.information(self, "Success", "Kết nối đến server thành công")
+            QMessageBox.information(
+                self, "Success", "Kết nối đến server thành công")
 
     def onButtonQuitClick(self):
         self.closeEvent(None)
@@ -77,6 +80,7 @@ class ClientApp(ClientDesign):
 
         if gv.client:
             utils.write(gv.client, "quit()")
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
