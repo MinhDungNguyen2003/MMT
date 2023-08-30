@@ -1,3 +1,4 @@
 Windows Registry Editor Version 5.00
-[HKEY_CURRENT_USER\test]
+
+[HKEY_CURRENT_USER\test4]
 "ten"="test1"

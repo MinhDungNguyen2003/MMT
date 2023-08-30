@@ -5,7 +5,6 @@ import sys
 import utils
 import globalVar as gv
 from process import ProcessApp
-from shutdown import ShutdownApp
 from registry import RegistryApp
 from listApp import ListAppApp
 from keylog import KeylogApp
@@ -66,7 +65,42 @@ class ClientApp(ClientDesign):
         sys.exit()
 
     def onButtonShutdownClick(self):
-        self.open(ShutdownApp, True)
+        if gv.client is None:
+            QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
+            return
+        print("shutdown")
+        self.shutdown()
+
+    def onButtonLogoutClick(self):
+        print("logout")
+        if gv.client is None:
+            QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
+            return
+        self.logout()
+
+    def shutdown(self):
+        print("shutdown")
+        utils.write(gv.client, "shutdown()")
+        message = utils.readStr(gv.client)
+        if "Error" in message:
+            QMessageBox.warning(self, "Error", message)
+        else:
+            QMessageBox.information(self, "Success", message)
+            gv.client = None
+            self.buttonConnect.setEnabled(True)
+            self.ipInput.setEnabled(True)
+
+    def logout(self):
+        print("logout")
+        utils.write(gv.client, "logout()")
+        message = utils.readStr(gv.client)
+        if "Error" in message:
+            QMessageBox.warning(self, "Error", message)
+        else:
+            QMessageBox.information(self, "Success", message)
+            gv.client = None
+            self.buttonConnect.setEnabled(True)
+            self.ipInput.setEnabled(True)
 
     def closeApp(self):
         if self.viewApp:

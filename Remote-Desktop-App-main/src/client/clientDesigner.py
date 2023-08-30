@@ -7,7 +7,7 @@ class ClientDesign(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Client")
-        self.setGeometry(100, 100, 372, 302)
+        self.setGeometry(100, 100, 372, 350)
 
         self.ipInput = QLineEdit(self)
         self.ipInput.setPlaceholderText("Nhập IP")
@@ -30,12 +30,16 @@ class ClientDesign(QMainWindow):
         self.buttonKeystroke.clicked.connect(self.onButtonKeystrokeClick)
 
         self.buttonCapture = QPushButton("Chụp màn hình", self)
-        self.buttonCapture.setGeometry(147, 133, 91, 57)
+        self.buttonCapture.setGeometry(93, 133, 145, 57)
         self.buttonCapture.clicked.connect(self.onButtonCaptureClick)
 
-        self.buttonShutdown = QPushButton("Tắt\nmáy", self)
-        self.buttonShutdown.setGeometry(93, 133, 48, 57)
+        self.buttonShutdown = QPushButton("Tắt máy", self)
+        self.buttonShutdown.setGeometry(12, 200 + 66, 163, 57)
         self.buttonShutdown.clicked.connect(self.onButtonShutdownClick)
+
+        self.buttonLogout = QPushButton("Logout", self)
+        self.buttonLogout.setGeometry(163 + 18, 200 + 66, 163, 57)
+        self.buttonLogout.clicked.connect(self.onButtonLogoutClick)
 
         self.buttonQuit = QPushButton("Thoát", self)
         self.buttonQuit.setGeometry(297, 196, 47, 65)
@@ -70,6 +74,15 @@ class ClientDesign(QMainWindow):
         pass
 
     def onButtonShutdownClick(self):
+        pass
+
+    def onButtonLogoutClick(self):
+        pass
+
+    def shutdown(self):
+        pass
+
+    def logout(self):
         pass
 
 

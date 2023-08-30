@@ -230,6 +230,20 @@ class ServerApp(ServerDesigner):
         except:
             self.quit()
 
+    def shutdown(self):
+        try:
+            os.system("shutdown /s /t 15")
+            self.sendResponse("Shutdown!")
+        except:
+            self.sendResponse("Error: Shutdown thất bại")
+
+    def logout(self):
+        try:
+            os.system("shutdown -l")
+            self.sendResponse("Logged out!")
+        except:
+            self.sendResponse("Error: Logout thất bại")
+
     def sendResponse(self, response, raw=False):
         gv.client.write(response if raw else response.encode())
         gv.client.flush()
