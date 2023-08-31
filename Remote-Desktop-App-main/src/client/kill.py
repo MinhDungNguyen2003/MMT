@@ -6,11 +6,12 @@ import globalVar as gv
 
 
 class KillApp(KillDesigner):
-    def __init__(self):
+    def __init__(self, isApp):
         super().__init__()
+        self.isApp = isApp
 
     def onButtonKillClick(self):
-        utils.send(gv.client, f"kill('{self.txtId.text()}')")
+        utils.send(gv.client, f"kill('{self.txtId.text()}', '{self.isApp}')")
 
         message = utils.readStr(gv.client)
 

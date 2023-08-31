@@ -28,12 +28,12 @@ class ProcessApp(ProcessDesigner):
 
     def onButtonKillClick(self):
         self.closeApp()
-        self.viewApp = KillApp()
+        self.viewApp = KillApp(False)
         self.viewApp.show()
 
     def onButtonStartClick(self):
         self.closeApp()
-        self.viewApp = StartApp()
+        self.viewApp = StartApp(False)
         self.viewApp.show()
 
     def onButtonClearClick(self):

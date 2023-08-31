@@ -28,12 +28,12 @@ class ListAppApp(ListAppDesigner):
 
     def onButtonKillClick(self):
         self.closeApp()
-        self.viewApp = KillApp()
+        self.viewApp = KillApp(True)
         self.viewApp.show()
 
     def onButtonStartClick(self):
         self.closeApp()
-        self.viewApp = StartApp()
+        self.viewApp = StartApp(True)
         self.viewApp.show()
 
     def onButtonClearClick(self):
