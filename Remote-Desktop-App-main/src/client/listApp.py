@@ -60,3 +60,4 @@ if __name__ == "__main__":
     listappApp = ListAppApp()
     listappApp.show()
     sys.exit(app.exec())
+#
