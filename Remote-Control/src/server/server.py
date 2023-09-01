@@ -1,12 +1,12 @@
 import socket
 from serverDesigner import ServerDesigner
-import globalVar as gv
+import globalVar
 import sys
 import os
 import re
 import subprocess
 import winreg
-from PyQt6.QtWidgets import QApplication, QPushButton
+from PyQt6.QtWidgets import QApplication
 from PyQt6.QtNetwork import QTcpServer, QHostAddress, QAbstractSocket
 from keylogger import Keylogger
 
@@ -24,19 +24,19 @@ class ServerApp(ServerDesigner):
         return ipAddress
 
     def onButtonOpenServerClick(self):
-        if gv.server is None:
+        if globalVar.server is None:
             ipAddress = self.getNetworkIP()
             print(ipAddress)
-            gv.server = QTcpServer(self)
-            gv.server.listen(QHostAddress(ipAddress), 5656)
-            gv.server.newConnection.connect(self.onNewConnection)
+            globalVar.server = QTcpServer(self)
+            globalVar.server.listen(QHostAddress(ipAddress), 5656)
+            globalVar.server.newConnection.connect(self.onNewConnection)
             self.buttonOpenServer.setEnabled(False)
             self.buttonOpenServer.setText("Đã mở server")
             self.showIP.setText(ipAddress)
 
     def onNewConnection(self):
-        gv.client = gv.server.nextPendingConnection()
-        if gv.client.state() == QAbstractSocket.SocketState.ConnectedState:
+        globalVar.client = globalVar.server.nextPendingConnection()
+        if globalVar.client.state() == QAbstractSocket.SocketState.ConnectedState:
             self.handleClient()
 
     def showApp(self):
@@ -238,8 +238,8 @@ class ServerApp(ServerDesigner):
 
     def receiveSignal(self, size=1024):
         try:
-            gv.client.waitForReadyRead()
-            return gv.client.read(size).decode()
+            globalVar.client.waitForReadyRead()
+            return globalVar.client.read(size).decode()
         except:
             self.quit()
 
@@ -258,13 +258,13 @@ class ServerApp(ServerDesigner):
             self.sendResponse("Error: Logout thất bại")
 
     def sendResponse(self, response, raw=False):
-        gv.client.write(response if raw else response.encode())
-        gv.client.flush()
-        gv.client.waitForBytesWritten()
+        globalVar.client.write(response if raw else response.encode())
+        globalVar.client.flush()
+        globalVar.client.waitForBytesWritten()
 
     def quit(self):
-        gv.client.close()
-        gv.server.close()
+        globalVar.client.close()
+        globalVar.server.close()
         exit()
 
 
