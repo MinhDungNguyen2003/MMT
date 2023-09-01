@@ -150,79 +150,79 @@ class ServerApp(ServerDesigner):
         else:
             self.sendResponse("Sửa thành công!")
 
-    def registryGetValue(self, link, value_name):
+    def registryGetValue(self, path, nameValue):
         try:
-            root_key, sub_key = link.split("\\", 1)
-            root_key = getattr(winreg, root_key)
-            key = winreg.OpenKey(root_key, sub_key)
-            value, _ = winreg.QueryValueEx(key, value_name)
+            rootKey, subKey = path.split("\\", 1)
+            rootKey = getattr(winreg, rootKey)
+            key = winreg.OpenKey(rootKey, subKey)
+            value, _ = winreg.QueryValueEx(key, nameValue)
             winreg.CloseKey(key)
 
             self.sendResponse(f"{value}\n")
         except Exception as e:
             self.sendResponse(f"Error: {e}\n")
 
-    def registrySetValue(self, link, value_name, value, op_type):
+    def registrySetValue(self, path, nameValue, value, typeOption):
         try:
-            root_key, sub_key = link.split("\\", 1)
-            root_key = getattr(winreg, root_key)
-            key = winreg.OpenKey(root_key, sub_key, 0, winreg.KEY_SET_VALUE)
-            value_type = ""
+            rootKey, subKey = path.split("\\", 1)
+            rootKey = getattr(winreg, rootKey)
+            key = winreg.OpenKey(rootKey, subKey, 0, winreg.KEY_SET_VALUE)
+            typeVal = ""
 
-            if op_type == "String":
-                value_type = winreg.REG_SZ
-            elif op_type == "Multi-String":
-                value_type = winreg.REG_MULTI_SZ
-            elif op_type == "Expandable String":
-                value_type = winreg.REG_EXPAND_SZ
-            elif op_type == "DWORD":
-                value_type = winreg.REG_DWORD
+            if typeOption == "String":
+                typeVal = winreg.REG_SZ
+            elif typeOption == "Multi-String":
+                typeVal = winreg.REG_MULTI_SZ
+            elif typeOption == "Expandable String":
+                typeVal = winreg.REG_EXPAND_SZ
+            elif typeOption == "DWORD":
+                typeVal = winreg.REG_DWORD
                 value = int(value)
-            elif op_type == "QWORD":
-                value_type = winreg.REG_QWORD
+            elif typeOption == "QWORD":
+                typeVal = winreg.REG_QWORD
                 value = int(value)
-            elif op_type == "Binary":
-                value_type = winreg.REG_BINARY
+            elif typeOption == "Binary":
+                typeVal = winreg.REG_BINARY
                 value = bytes(map(int, value.split()))
             else:
                 self.sendResponse("Error: kiểu không hợp lệ\n")
                 return
 
-            winreg.SetValueEx(key, value_name, 0, value_type, value)
+            winreg.SetValueEx(key, nameValue, 0, typeVal, value)
             winreg.CloseKey(key)
 
             self.sendResponse("Set value thành công\n")
         except Exception as e:
             self.sendResponse(f"Error: {e}\n")
 
-    def registryDeleteValue(self, link, value_name):
+    def registryDeleteValue(self, path, nameValue):
         try:
-            root_key, sub_key = link.split("\\", 1)
-            root_key = getattr(winreg, root_key)
-            key = winreg.OpenKey(root_key, sub_key, 0, winreg.KEY_SET_VALUE)
-            winreg.DeleteValue(key, value_name)
+            rootKey, subKey = path.split("\\", 1)
+            rootKey = getattr(winreg, rootKey)
+            key = winreg.OpenKey(rootKey, subKey, 0, winreg.KEY_SET_VALUE)
+            winreg.DeleteValue(key, nameValue)
             winreg.CloseKey(key)
 
             self.sendResponse("Xóa value thành công\n")
         except Exception as e:
             self.sendResponse(f"Error: {e}\n")
 
-    def registryCreateKey(self, link):
+    def registryCreateKey(self, path):
         try:
-            root_key, sub_key = link.split("\\", 1)
-            root_key = getattr(winreg, root_key)
-            key = winreg.CreateKey(root_key, sub_key)
+            rootKey, subKey = path.split("\\", 1)
+            rootKey = getattr(winreg, rootKey)
+            key = winreg.CreateKey(rootKey, subKey)
             winreg.CloseKey(key)
 
             self.sendResponse("Tạo key thành công\n")
         except Exception as e:
             self.sendResponse(f"Error: {e}\n")
 
-    def registryDeleteKey(self, link):
+    def registryDeleteKey(self, path):
         try:
-            root_key, sub_key = link.split("\\", 1)
-            root_key = getattr(winreg, root_key)
-            winreg.DeleteKey(root_key, sub_key)
+            rootKey, subKey = path.split("\\", 1)
+            rootKey = getattr(winreg, rootKey)
+            winreg.DeleteKey(rootKey, subKey)
 
             self.sendResponse("Xóa key thành công\n")
         except Exception as e:
