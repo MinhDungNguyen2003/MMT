@@ -2,7 +2,7 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QLabel
 
 
-class ClientDesign(QMainWindow):
+class ClientDesigner(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -58,12 +58,6 @@ class ClientDesign(QMainWindow):
     def onButtonLogoutClick(self):
         pass
 
-    def shutdown(self):
-        pass
-
-    def logout(self):
-        pass
-
     def onButtonAppClick(self):
         pass
 
@@ -88,7 +82,7 @@ class ClientDesign(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    clientApp = ClientDesign()
+    clientApp = ClientDesigner()
     clientApp.show()
     # clientApp.applyButtonStyle(clientApp.buttonConnect)
     # clientApp.applyButtonStyle(clientApp.buttonApp)

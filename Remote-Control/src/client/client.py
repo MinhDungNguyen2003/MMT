@@ -1,6 +1,6 @@
 from PyQt6.QtNetwork import QTcpSocket, QHostAddress
 from PyQt6.QtWidgets import QMessageBox, QApplication
-from clientDesigner import ClientDesign
+from clientDesigner import ClientDesigner
 import sys
 import utils
 import globalVar
@@ -11,7 +11,7 @@ from keylog import KeylogApp
 from pic import PicApp
 
 
-class ClientApp(ClientDesign):
+class ClientApp(ClientDesigner):
     def __init__(self):
         super().__init__()
         self.viewApp = None
@@ -50,18 +50,7 @@ class ClientApp(ClientDesign):
         if globalVar.client is None:
             QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
             return
-        print("shutdown")
-        self.shutdown()
 
-    def onButtonLogoutClick(self):
-        print("logout")
-        if globalVar.client is None:
-            QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
-            return
-        self.logout()
-
-    def shutdown(self):
-        print("shutdown")
         utils.send(globalVar.client, "shutdown()")
         message = utils.readStr(globalVar.client)
         if "Error" in message:
@@ -72,8 +61,11 @@ class ClientApp(ClientDesign):
             self.buttonConnect.setEnabled(True)
             self.ipInput.setEnabled(True)
 
-    def logout(self):
-        print("logout")
+    def onButtonLogoutClick(self):
+        if globalVar.client is None:
+            QMessageBox.warning(self, "Error", "Chưa kết nối đến server")
+            return
+
         utils.send(globalVar.client, "logout()")
         message = utils.readStr(globalVar.client)
         if "Error" in message:
@@ -120,3 +112,27 @@ if __name__ == "__main__":
     clientApp = ClientApp()
     clientApp.show()
     sys.exit(app.exec())
+
+    # def shutdown(self):
+    #     print("shutdown")
+    #     utils.send(globalVar.client, "shutdown()")
+    #     message = utils.readStr(globalVar.client)
+    #     if "Error" in message:
+    #         QMessageBox.warning(self, "Error", message)
+    #     else:
+    #         QMessageBox.information(self, "Success", message)
+    #         globalVar.client = None
+    #         self.buttonConnect.setEnabled(True)
+    #         self.ipInput.setEnabled(True)
+
+    # def logout(self):
+    #     print("logout")
+    #     utils.send(globalVar.client, "logout()")
+    #     message = utils.readStr(globalVar.client)
+    #     if "Error" in message:
+    #         QMessageBox.warning(self, "Error", message)
+    #     else:
+    #         QMessageBox.information(self, "Success", message)
+    #         globalVar.client = None
+    #         self.buttonConnect.setEnabled(True)
+    #         self.ipInput.setEnabled(True)
